@@ -1,0 +1,57 @@
+/*
+U10216010 ZHIWENZHAN
+Add message panel to display current time 
+ */
+
+//in package chapter16
+package chapter16;
+
+//import two class in chapter13
+import chapter13.StillClock;
+import chapter13.MessagePanel;
+
+import java.awt.event.*;
+import java.awt.*;
+import javax.swing.*;
+
+
+public class ClockAnimation extends JFrame {
+	//Create stillclock and messagepanel
+	private StillClock clock = new StillClock();
+	private MessagePanel clock_text = new MessagePanel(clock.getHour() +
+		  ":" + clock.getMinute() + ":" + clock.getSecond());
+  
+	public ClockAnimation() {
+	  	clock_text.setCentered(true);
+	  	clock_text.setForeground(Color.blue);
+	  	clock_text.setFont(new Font("Courie", Font.BOLD, 16));  
+	  	add(clock);
+	  	add(clock_text, BorderLayout.SOUTH);
+
+	  	// Create a timer with delay 1000 ms
+	  	Timer timer = new Timer(1000, new TimerListener());
+	  	timer.start();
+	}
+
+	private class TimerListener implements ActionListener {
+		@Override /** Handle the action event */
+    	public void actionPerformed(ActionEvent e) {
+			// Set new time and repaint the clock to display current time
+			clock.setCurrentTime();
+			clock.repaint();
+			// Set new String of current time and repaint the message panel to display
+			clock_text.setMessage(clock.getHour() +":" + clock.getMinute() + ":" + clock.getSecond());    
+			clock_text.repaint();
+		}
+	}
+
+	/** Main method */
+	public static void main(String[] args) {
+		JFrame frame = new ClockAnimation();
+		frame.setTitle("ClockAnimation");
+		frame.setSize(400, 400);
+		frame.setLocationRelativeTo(null); // Center the frame
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}	
+}
